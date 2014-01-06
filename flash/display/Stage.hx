@@ -474,10 +474,14 @@ class Stage extends DisplayObjectContainer {
 			
 		} catch (error:Dynamic) {
 			
-			Lib.rethrow (error);
+			var uee = Lib.current.loaderInfo.uncaughtErrorEvents;
+			if( uee.hasEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR)) {
+				Lib.current.loaderInfo.uncaughtErrorEvents.dispatchEvent( new UncaughtErrorEvent( UncaughtErrorEvent.UNCAUGHT_ERROR, true, true, error ) );
+			}
 			
-		}
-		
+			Lib.rethrow (error);
+       }
+	   
 		result = __updateNextWake ();
 		return result;
 		
