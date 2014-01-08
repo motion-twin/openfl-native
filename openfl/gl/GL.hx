@@ -886,7 +886,7 @@ class GL {
 	{
 		try 
 		{
-			return Lib.load("nme", inName, inArgCount);
+			return Lib.load("lime", inName, inArgCount);
 
 		} catch(e:Dynamic) 
 		{

@@ -1,13 +1,11 @@
 package flash.display;
 
-
 import flash.display.DisplayObjectContainer;
 import flash.events.FocusEvent;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.events.TouchEvent;
 import flash.events.Event;
-import flash.events.UncaughtErrorEvent;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.media.SoundChannel;
@@ -473,11 +471,6 @@ class Stage extends DisplayObjectContainer {
 			}
 			
 		} catch (error:Dynamic) {
-			
-			var uee = Lib.current.loaderInfo.uncaughtErrorEvents;
-			if( uee.hasEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR)) {
-				Lib.current.loaderInfo.uncaughtErrorEvents.dispatchEvent( new UncaughtErrorEvent( UncaughtErrorEvent.UNCAUGHT_ERROR, true, true, error ) );
-			}
 			
 			Lib.rethrow (error);
        }
