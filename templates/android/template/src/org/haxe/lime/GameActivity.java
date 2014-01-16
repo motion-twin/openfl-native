@@ -78,8 +78,13 @@ public class GameActivity extends Activity implements SensorEventListener {
 	private MainView mView;
 	private Sound _sound;
 	
+	private static String TAG = "GameActivity";
+	static public void trace( String s ) {
+		Log.i( TAG , s );
+	}
+	
 	protected void onCreate (Bundle state) {
-		
+		trace("onCreate");
 		super.onCreate (state);
 		
 		activity = this;
@@ -310,6 +315,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	@Override
     protected void onNewIntent(final Intent intent) {
+		trace("onNewIntent");
 		for (Extension extension : extensions) {
 			extension.onNewIntent (intent);
 		}
@@ -317,23 +323,25 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 	
 	@Override public void onBackPressed() {
+		trace("onBackPressed");
 		for (Extension extension : extensions) {
 			extension.onBackPressed ();
 		}
-		super.onBackPressed ();
 	}
 	
 	@Override public void onLowMemory() {
+		trace("onLowMemory");
 		for (Extension extension : extensions) {
 			extension.onLowMemory ();
 		}
-		super.onLowMemory ();
 	}
 	
-	@Override public void onAccuracyChanged (Sensor sensor, int accuracy) {
+	@Override public void onAccuracyChanged (Sensor sensor, int accuracy) {	
+		trace("onAccuracyChanged");
 	}
 	
 	@Override protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+		trace("onActivityResult");
 		for (Extension extension : extensions) {
 			if (!extension.onActivityResult (requestCode, resultCode, data)) {
 				return;
@@ -343,6 +351,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 	
 	@Override protected void onDestroy () {
+		trace("onDestroy");
 		for (Extension extension : extensions) {
 			extension.onDestroy ();
 		}
@@ -353,6 +362,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 	
 	@Override protected void onPause () {
+		trace("onPause");
 		doPause ();
 		super.onPause ();
 		for (Extension extension : extensions) {
@@ -361,6 +371,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 	
 	@Override protected void onRestart () {
+		trace("onRestart");
 		super.onRestart ();
 		for (Extension extension : extensions) {
 			extension.onRestart ();
@@ -369,6 +380,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	
 	@Override protected void onResume () {
+		trace("onResume");
 		super.onResume();
 		doResume();
 		for (Extension extension : extensions) {
@@ -377,6 +389,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 	
 	@Override public void onSensorChanged (SensorEvent event) {
+		trace("onSensorChanged");
 		loadNewSensorData (event);
 		
 		if (accelData != null && magnetData != null) {
@@ -392,6 +405,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 	
 	@Override protected void onStart () {
+		trace("onStart");
 		super.onStart();
 		
 		::if WIN_FULLSCREEN::::if (ANDROID_TARGET_SDK_VERSION >= 16)::
@@ -408,6 +422,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 	
 	@Override protected void onStop () {
+		trace("onStop");
 		super.onStop ();
 		for (Extension extension : extensions) {
 			extension.onStop ();
