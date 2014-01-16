@@ -87,11 +87,6 @@ public class GameActivity extends Activity implements SensorEventListener {
 		mHandler = new Handler ();
 		mAssets = getAssets ();
 		
-		Extension.assetManager = mAssets;
-		Extension.callbackHandler = mHandler;
-		Extension.mainActivity = this;
-		Extension.mainContext = this;
-		
 		_sound = new Sound (getApplication ());
 		//getResources().getAssets();
 		
@@ -133,30 +128,29 @@ public class GameActivity extends Activity implements SensorEventListener {
 		
 		mView = mMainView;*/
 		
+		sensorManager = (SensorManager)activity.getSystemService (Context.SENSOR_SERVICE);
+		if (sensorManager != null) {
+			sensorManager.registerListener (this, sensorManager.getDefaultSensor (Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+			sensorManager.registerListener (this, sensorManager.getDefaultSensor (Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);	
+		}
+		
+		
 		mView = new MainView (getApplication (), this);
 		setContentView (mView);
 		
+		Extension.assetManager = mAssets;
+		Extension.callbackHandler = mHandler;
+		Extension.mainActivity = this;
+		Extension.mainContext = this;
 		Extension.mainView = mView;
 		
-		sensorManager = (SensorManager)activity.getSystemService (Context.SENSOR_SERVICE);
-		
-		if (sensorManager != null) {
-			
-			sensorManager.registerListener (this, sensorManager.getDefaultSensor (Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
-			sensorManager.registerListener (this, sensorManager.getDefaultSensor (Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);
-			
-		}
-		
 		if (extensions == null) {
-			
 			extensions = new ArrayList<Extension>();
 			::if (ANDROID_EXTENSIONS != null)::::foreach ANDROID_EXTENSIONS::
 			extensions.add (new ::__current__:: ());::end::::end::
-			
 		}
 		
 		for (Extension extension : extensions) {
-			
 			extension.onCreate (state);
 		}
 	}
