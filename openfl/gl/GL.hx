@@ -1111,7 +1111,7 @@ class GL {
 		lime_gl_vertex_attrib1f(indx, x);
 	}
 
-	public static inline  function vertexAttrib1fv(indx:Int, values:IMemoryRange):Void 
+	public static inline  function vertexAttrib1fv(indx:Int, values:Float32Array):Void 
 	{
 		lime_gl_vertex_attrib1fv(indx, values.getByteBuffer());
 	}
@@ -1121,7 +1121,7 @@ class GL {
 		lime_gl_vertex_attrib2f(indx, x, y);
 	}
 
-	public static inline  function vertexAttrib2fv(indx:Int, values:IMemoryRange):Void 
+	public static inline  function vertexAttrib2fv(indx:Int, values:Float32Array):Void 
 	{
 		lime_gl_vertex_attrib2fv(indx, values.getByteBuffer());
 	}
@@ -1131,7 +1131,7 @@ class GL {
 		lime_gl_vertex_attrib3f(indx, x, y, z);
 	}
 
-	public static inline  function vertexAttrib3fv(indx:Int, values:IMemoryRange):Void 
+	public static inline  function vertexAttrib3fv(indx:Int, values:Float32Array):Void 
 	{
 		lime_gl_vertex_attrib3fv(indx, values.getByteBuffer());
 	}
@@ -1141,7 +1141,7 @@ class GL {
 		lime_gl_vertex_attrib4f(indx, x, y, z, w);
 	}
 
-	public static inline  function vertexAttrib4fv(indx:Int, values:IMemoryRange):Void 
+	public static inline  function vertexAttrib4fv(indx:Int, values:Float32Array):Void 
 	{
 		lime_gl_vertex_attrib4fv(indx, values.getByteBuffer());
 	}
