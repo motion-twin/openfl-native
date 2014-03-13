@@ -149,6 +149,8 @@ public class GameActivity extends Activity implements SensorEventListener {
 		Extension.mainContext = this;
 		Extension.mainView = mView;
 		
+		Extension.PACKAGE_NAME = getApplicationContext().getPackageName();
+		
 		if (extensions == null) {
 			extensions = new ArrayList<Extension>();
 			::if (ANDROID_EXTENSIONS != null)::::foreach ANDROID_EXTENSIONS::
@@ -323,7 +325,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	@Override 
 	public void onBackPressed() {
-		trace("onBackPressed");
+		
 	}
 	
 	@Override 
