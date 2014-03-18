@@ -24,7 +24,7 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 	
 
 	public var bigEndian:Bool;
-	public var bytesAvailable (get, null):Int;
+	public var bytesAvailable (get, null):UInt;
 	public var endian (get, set):String;
 	public var position:Int;
 	public var byteLength (get, null):Int;

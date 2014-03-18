@@ -4,7 +4,7 @@ package flash.utils;
 interface IDataInput {
 	
 	
-	public var bytesAvailable (get, null):Int;
+	public var bytesAvailable (get, null):UInt;
 	public var endian (get, set):String;
 	
 	public function readBoolean ():Bool;

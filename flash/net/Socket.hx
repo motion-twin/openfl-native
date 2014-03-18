@@ -32,10 +32,10 @@ class Socket extends EventDispatcher implements IDataInput /*implements IDataOut
     private var _input : ByteArray;
 	private var _output : ByteArray;
 
-    public var bytesAvailable(get, null) : Int;
+    public var bytesAvailable(get, null) : UInt;
 	public var bytesPending(get, null) : Int;
 	public var timeout : Int;
-    public var objectEncoding : Int;
+    public var objectEncoding : UInt;
     @:isVar
     public var endian(get, set): String;
 
