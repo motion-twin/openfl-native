@@ -38,6 +38,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.Math;
 import java.lang.Runnable;
+import android.content.ComponentCallbacks2;
 
 import org.haxe.extension.Extension;
 import org.haxe.HXCPP;
@@ -77,6 +78,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	private static MainView mMainView;
 	private MainView mView;
 	private Sound _sound;
+	private boolean isPaused;
 	
 	private static String TAG = "GameActivity";
 	static public void trace( String s ) {
@@ -91,9 +93,9 @@ public class GameActivity extends Activity implements SensorEventListener {
 		mContext = this;
 		mHandler = new Handler ();
 		mAssets = getAssets ();
+		isPaused = true;
 		
 		_sound = new Sound (getApplication ());
-		//getResources().getAssets();
 		
 		requestWindowFeature (Window.FEATURE_NO_TITLE);
 		::if WIN_FULLSCREEN::
@@ -107,38 +109,16 @@ public class GameActivity extends Activity implements SensorEventListener {
 		
 		// Pre-load these, so the C++ knows where to find them
 		
-		//if (mMainView == null) {
-			
-			Log.d ("lime", "mMainView is NULL");
-			
-			::foreach ndlls::
-			System.loadLibrary ("::name::");::end::
-			HXCPP.run ("ApplicationMain");
-			
-			//mMainView = new MainView (getApplication (), this);
-			
-		/*} else {
-			
-			ViewGroup parent = (ViewGroup)mMainView.getParent ();
-			
-			if (parent != null) {
-				
-				parent.removeView (mMainView);
-				
-			}
-			
-			mMainView.onResume ();
-			
-		}
-		
-		mView = mMainView;*/
+		::foreach ndlls::
+		System.loadLibrary ("::name::");
+		::end::
+		HXCPP.run ("ApplicationMain");
 		
 		sensorManager = (SensorManager)activity.getSystemService (Context.SENSOR_SERVICE);
 		if (sensorManager != null) {
 			sensorManager.registerListener (this, sensorManager.getDefaultSensor (Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
 			sensorManager.registerListener (this, sensorManager.getDefaultSensor (Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_GAME);	
-		}
-		
+		}		
 		
 		mView = new MainView (getApplication (), this);
 		setContentView (mView);
@@ -195,6 +175,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	
 	public void doPause () {
+		isPaused = true;
 		_sound.doPause ();
 		mView.sendActivity (Lime.DEACTIVATE);
 		mView.onPause ();
@@ -204,6 +185,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	//dont check pause because onResume can be called by sleep process as well
 	public void doResume () {
+		isPaused = false;
 		mView.onResume ();
 		_sound.doResume ();
 		mView.sendActivity (Lime.ACTIVATE);
@@ -330,7 +312,15 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	@Override 
 	public void onLowMemory() {
-		trace("onLowMemory");
+		onTrimMemory ( ComponentCallbacks2.TRIM_MEMORY_COMPLETE );
+	}
+	
+	@Override
+	public void onTrimMemory( int level ){
+		if( !isPaused || level < ComponentCallbacks2.TRIM_MEMORY_MODERATE )
+			return;
+		
+		// we are in background
 		for (Extension extension : extensions) {
 			extension.onLowMemory ();
 		}
