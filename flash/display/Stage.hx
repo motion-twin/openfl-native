@@ -108,10 +108,12 @@ class Stage extends DisplayObjectContainer {
 		__nextRender = 0;
 		this.frameRate = 100;
 		__touchInfo = new Map <Int, TouchInfo> ();
-		__joyAxisData = new Map <Int, Array<Float>> ();
+		__joyAxisData = new Map < Int, Array<Float> > ();
 		
+		#if(cpp && (safeMode || debug))
+		untyped __global__.__hxcpp_set_critical_error_handler( function(message:String) { throw message; } );
+		#end
 	}
-	
 	
 	public static dynamic function getOrientation ():Int {
 		
@@ -301,7 +303,7 @@ class Stage extends DisplayObjectContainer {
 		
 	}
 	
-	
+
 	#if android
 	#if no_traces
 	@:functionCode("try {")
@@ -471,7 +473,7 @@ class Stage extends DisplayObjectContainer {
 			}
 			
 		} catch (error:Dynamic) {
-			
+			trace("Error do process event");
 			Lib.rethrow (error);
        }
 	   
