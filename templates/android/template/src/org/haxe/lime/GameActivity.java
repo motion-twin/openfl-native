@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.KeyEvent;
 import dalvik.system.DexClassLoader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,7 +76,6 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	public Handler mHandler;
 	
-	private static MainView mMainView;
 	private MainView mView;
 	private Sound _sound;
 	private boolean isPaused;
@@ -307,7 +307,6 @@ public class GameActivity extends Activity implements SensorEventListener {
 	
 	@Override 
 	public void onBackPressed() {
-		
 	}
 	
 	@Override 
@@ -339,6 +338,20 @@ public class GameActivity extends Activity implements SensorEventListener {
 			}
 		}
 		super.onActivityResult (requestCode, resultCode, data);
+	}
+	
+	@Override 
+	public boolean onKeyDown( int keyCode, KeyEvent event ){
+		if( mView.handleKeyDown( keyCode, event ) )
+			return true;
+		return super.onKeyDown(keyCode, event);
+	}
+	
+	@Override 
+	public boolean onKeyUp( int keyCode, KeyEvent event ){
+		if( mView.handleKeyUp( keyCode, event ) )
+			return true;
+		return super.onKeyUp(keyCode, event);
 	}
 	
 	@Override 
