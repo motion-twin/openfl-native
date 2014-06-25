@@ -38,6 +38,12 @@ class BitmapData implements IBitmapDrawable {
 	@:noCompletion public var __handle:Dynamic;
 	@:noCompletion private var __transparent:Bool;
 	
+	static var currentAllocated:Int;
+	static var totalAllocated:Int;
+	static public function printMemoryUsage()
+	{
+		mt.Console.err("BITMAPDATA ALLOCATION STATE:  current : " + currentAllocated + "Ko / total : " + totalAllocated + " Ko");
+	}
 	
 	public function new (width:Int, height:Int, transparent:Bool = true, fillColor:Int = 0xFFFFFFFF, gpuMode:Null<Int> = null) {
 		
@@ -59,6 +65,17 @@ class BitmapData implements IBitmapDrawable {
 				
 			}
 			
+			var allocated = ((width * height * 4) >> 10);
+			totalAllocated += allocated;
+			currentAllocated += allocated;
+			#if debug
+			if ( allocated > 50 )
+			{
+				mt.Console.mdbg("BITMAPDATA ALLOCATION:" + width + "x" + height + " => " + allocated + " Ko / current : " + currentAllocated + "Ko / total : " + totalAllocated + " Ko");
+				if ( allocated > 1000 )
+					mt.Console.warn( ">>>>>>>>>>>>>>>>>>>    " + (allocated / 1024) + " Mo  texture allocation");
+			}
+			#end
 			__handle = lime_bitmap_data_create (width, height, flags, fillColor & 0xFFFFFF, alpha, gpuMode);
 			
 		}
@@ -136,6 +153,9 @@ class BitmapData implements IBitmapDrawable {
 	public function dispose ():Void {
 		
 		if (__handle != null) {
+			
+			var allocated = ((width * height * 4) >> 10);
+			currentAllocated -= allocated;
 			
 			lime_bitmap_data_dispose (__handle);
 			
