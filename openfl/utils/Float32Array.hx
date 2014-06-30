@@ -53,7 +53,6 @@ class Float32Array extends ArrayBufferView implements ArrayAccess<Float> {
 			}
 			
 		} else {
-			
 			super (bufferOrArray, start, length);
 			
 			if ((byteLength & 0x03) > 0) {
@@ -81,6 +80,12 @@ class Float32Array extends ArrayBufferView implements ArrayAccess<Float> {
 		
 	}
 	
+	public function __setLength( nbFloat : Int) {
+		length = nbFloat;
+		byteLength = nbFloat << 2;
+		
+		buffer.setLength(byteLength);
+	}
 	
 	@:noCompletion @:keep inline public function __get (index:Int):Float { return getFloat32 (index << 2); }
 	@:noCompletion @:keep inline public function __set (index:Int, value:Float):Void { setFloat32 (index << 2, value); }
