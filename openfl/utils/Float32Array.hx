@@ -80,7 +80,7 @@ class Float32Array extends ArrayBufferView implements ArrayAccess<Float> {
 		
 	}
 	
-	public function __setLength( nbFloat : Int) {
+	public inline function __setLength( nbFloat : Int) {
 		length = nbFloat;
 		byteLength = nbFloat << 2;
 		
