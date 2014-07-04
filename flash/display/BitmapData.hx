@@ -38,8 +38,8 @@ class BitmapData implements IBitmapDrawable {
 	@:noCompletion public var __handle:Dynamic;
 	@:noCompletion private var __transparent:Bool;
 	
-	static var currentAllocated:Int;
-	static var totalAllocated:Int;
+	static var currentAllocated:Int = 0;
+	static var totalAllocated:Int = 0;
 	static public function printMemoryUsage()
 	{
 		mt.Console.err("BITMAPDATA ALLOCATION STATE:  current : " + currentAllocated + "Ko / total : " + totalAllocated + " Ko");
