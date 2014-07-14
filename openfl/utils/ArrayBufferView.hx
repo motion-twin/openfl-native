@@ -30,7 +30,6 @@ class ArrayBufferView implements IMemoryRange {
 			buffer = new ArrayBuffer (Std.int (lengthOrBuffer));
 			
 		} else {
-			
 			buffer = lengthOrBuffer;
 			
 			if (buffer == null) {
@@ -57,7 +56,7 @@ class ArrayBufferView implements IMemoryRange {
 				
 				if (byteLength + byteOffset > buffer.length) {
 					
-					throw ("Invalid buffer length");
+					throw ("Invalid buffer length " +(byteLength + byteOffset)+ "<>"+buffer.length);
 					
 				}
 				
