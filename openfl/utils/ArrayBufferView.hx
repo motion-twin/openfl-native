@@ -81,15 +81,19 @@ class ArrayBufferView implements IMemoryRange {
 	
 	
 	inline public function getFloat32 (position:Int):Float {
-		
 		#if cpp
 		untyped return __global__.__hxcpp_memory_get_float (bytes, position + byteOffset);
 		#else
 		buffer.position = position + byteOffset;
 		return buffer.readFloat ();
 		#end
-		
 	}
+	
+	#if cpp
+	inline public function getFloat32f (position:Int): cpp.Float32 {
+		untyped return __global__.__hxcpp_memory_get_f32(bytes, position + byteOffset);
+	}
+	#end
 	
 	
 	inline public function getInt16 (position:Int):Int {
@@ -159,6 +163,12 @@ class ArrayBufferView implements IMemoryRange {
 		#end
 		
 	}
+	
+	#if cpp
+	inline public function setFloat32f(position:Int, value:cpp.Float32): Void {
+		untyped __global__.__hxcpp_memory_set_f32(bytes, position + byteOffset, value);
+	}
+	#end
 	
 	
 	inline public function setInt16 (position:Int, value:Int):Void {
