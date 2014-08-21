@@ -68,9 +68,8 @@ class Float32Array extends ArrayBufferView implements ArrayAccess<Float> {
 				throw "Invalid length multiple";
 				
 			}
-			
+				
 		}
-		
 	}
 	
 	
@@ -90,7 +89,7 @@ class Float32Array extends ArrayBufferView implements ArrayAccess<Float> {
 	@:noCompletion @:keep inline public function __get (index:Int):Float 						{ return getFloat32 (index << 2); }
 	@:noCompletion @:keep inline public function __set (index:Int, value:Float):Void 			{ setFloat32 (index << 2, value); }
 	
-	#if cpp
+	#if( cpp && (hxcpp_api_level >= 312) )
 	@:noCompletion @:keep inline public function __getF32 (index:Int): cpp.Float32 				{ return getFloat32f (index << 2); }
 	@:noCompletion @:keep inline public function __setF32 (index:Int, value:cpp.Float32) : Void { setFloat32f (index << 2, value); }
 	#end
