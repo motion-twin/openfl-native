@@ -13,7 +13,7 @@ class Float32Array extends ArrayBufferView implements ArrayAccess<Float> {
 	public var length (default, null):Int;
 	
 	
-	public function new (bufferOrArray:Dynamic, start:Int = 0, length:Null<Int> = null) {
+	public inline function new (bufferOrArray:Dynamic, start:Int = 0, length:Null<Int> = null) {
 		
 		BYTES_PER_ELEMENT = 4;
 		

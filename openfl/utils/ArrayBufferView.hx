@@ -21,7 +21,7 @@ class ArrayBufferView implements IMemoryRange {
 	#end
 	
 	
-	private function new (lengthOrBuffer:Dynamic, byteOffset:Int = 0, length:Null<Int> = null) {
+	private inline function new (lengthOrBuffer:Dynamic, byteOffset:Int = 0, length:Null<Int> = null) {
 		
 		if (Std.is (lengthOrBuffer, Int)) {
 			
@@ -73,7 +73,7 @@ class ArrayBufferView implements IMemoryRange {
 	}
 	
 	
-	public function getByteBuffer ():ByteArray {
+	public inline function getByteBuffer ():ByteArray {
 		
 		return buffer;
 		

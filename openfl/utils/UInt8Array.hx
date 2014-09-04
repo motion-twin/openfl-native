@@ -10,7 +10,7 @@ class UInt8Array extends ArrayBufferView implements ArrayAccess<Int> {
 	public var length (default, null):Int;
 	
 	
-	public function new (bufferOrArray:Dynamic, start:Int = 0, length:Null<Int> = null) {
+	public inline function new (bufferOrArray:Dynamic, start:Int = 0, length:Null<Int> = null) {
 		
 		BYTES_PER_ELEMENT = 1;
 		
