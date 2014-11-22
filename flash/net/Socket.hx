@@ -164,8 +164,13 @@ class Socket extends EventDispatcher implements IDataInput /*implements IDataOut
 			dispatchEvent( new ProgressEvent(ProgressEvent.SOCKET_DATA, false, false, newData.length, 0) );
 		}
 		
-		if( _socket != null )
-			flush();
+		if( _socket != null ) {
+			try {
+				flush();
+			}catch( e : IOError ) {
+				dispatchEvent( new IOErrorEvent(IOErrorEvent.IO_ERROR, true, false, e.message) );
+			}
+		}
 	}
 
 	private function cleanSocket(){
@@ -320,20 +325,10 @@ class Socket extends EventDispatcher implements IDataInput /*implements IDataOut
 			var doClose = false;
 			try {
 				_socket.output.write( _output );
+				_output = new ByteArray();
+				_output.endian = endian;
 			}catch( e : Dynamic ) {
-				doClose = true;
-			}
-			_output = new ByteArray();
-			_output.endian = endian;
-			
-			if( doClose && connected ){
-				_connected = false;
-				cleanSocket();
-				dispatchEvent( new Event(Event.CLOSE) );
-			}else if( doClose ){
-				_connected = false;
-				cleanSocket();
-				dispatchEvent( new IOErrorEvent(IOErrorEvent.IO_ERROR, true, false, "Connection failed") );
+				throw new IOError("Failed to send data on socket.");
 			}
 		}
 	}
