@@ -316,10 +316,25 @@ class Socket extends EventDispatcher implements IDataInput /*implements IDataOut
 	public function flush() {
 		if( _socket == null )
 			throw new IOError("Operation attempted on invalid socket.");
-		if( _output.length > 0 ){
-			_socket.output.write( _output );
+		if( _output.length > 0 ) {
+			var doClose = false;
+			try {
+				_socket.output.write( _output );
+			}catch( e : Dynamic ) {
+				doClose = true;
+			}
 			_output = new ByteArray();
 			_output.endian = endian;
+			
+			if( doClose && connected ){
+				_connected = false;
+				cleanSocket();
+				dispatchEvent( new Event(Event.CLOSE) );
+			}else if( doClose ){
+				_connected = false;
+				cleanSocket();
+				dispatchEvent( new IOErrorEvent(IOErrorEvent.IO_ERROR, true, false, "Connection failed") );
+			}
 		}
 	}
 	
